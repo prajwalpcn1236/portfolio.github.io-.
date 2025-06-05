@@ -968,7 +968,7 @@ function createAmazonPage() {
             
             <footer class="footer">
                 <div class="container">
-                    <p>© 2024 Prajwal | Research on Amazon's Search Technology</p>
+                    <p>© 2025 Prajwal | Research on Amazon's Search Technology</p>
                 </div>
             </footer>
         </body>
