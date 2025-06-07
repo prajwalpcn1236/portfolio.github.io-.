@@ -1,0 +1,665 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Product Ranking - Data Structures & Algorithms</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+<script>hljs.highlightAll();</script>
+    
+    <style>
+        :root {
+            --primary-color: #ff9900;
+            --secondary-color: #146eb4;
+            --text-primary: #232f3e;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-heading: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Fira Code', 'SF Mono', Monaco, monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+        
+        header {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .header-content h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-content p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: white;
+        }
+        
+        main {
+            padding: 4rem 0;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 4rem;
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .algorithm-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        
+        .algorithm-section:nth-child(even) {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .algorithm-section:nth-child(3) {
+            border-left-color: #9553e9;
+        }
+        
+        .algorithm-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .algorithm-emoji {
+            font-size: 1.5rem;
+        }
+        
+        .section-block {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        
+        .section-block h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-block p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .complexity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .complexity-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .complexity-item h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .complexity-value {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            background: rgba(20, 110, 180, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .code-snippet-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .code-snippet-header {
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-snippet {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0 0 8px 8px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 200px;
+            border: 2px dashed #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .code-placeholder {
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #e68900;
+        }
+        
+        .references-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+        
+        .references-section h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .reference-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .reference-item h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .reference-item a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .reference-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .complexity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .algorithm-section {
+                padding: 1.5rem;
+            }
+            
+            .code-snippet-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Product Ranking Algorithms</h1>
+                <p>Deep dive into the algorithms powering Amazon's product ranking and recommendation systems</p>
+                <a href="index.html" class="back-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">🔗</span>
+                    1. PageRank Algorithm
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To rank products based on their importance and authority within the marketplace.</p>
+                    <p>Analyzes the link structure between products, reviews, and user behavior to determine relevance.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Per iteration: <span class="complexity-value">O(n + m)</span> where n = nodes, m = edges</p>
+                        <p>Convergence: <span class="complexity-value">O(k * (n + m))</span> where k = iterations</p>
+                        <p>Typical k ≈ 50-100 iterations</p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p><span class="complexity-value">O(n + m)</span> for storing the graph</p>
+                        <p>PageRank vector: <span class="complexity-value">O(n)</span></p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            <pre><code class="language-cpp">
+//PageRank algorithm using power iteration
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;cmath&gt;
+
+using namespace std;
+
+const double DAMPING = 0.85;
+const int MAX_ITER = 100;
+const double EPSILON = 1e-6;
+
+int main() {
+    // Number of pages
+    int n = 4;
+
+    // Adjacency matrix (row i links to column j)
+    vector&lt;vector&lt;int&gt;&gt; links = {
+        {0, 1, 1, 0},  // Page 0 links to Page 1 and 2
+        {0, 0, 1, 0},  // Page 1 links to Page 2
+        {1, 0, 0, 1},  // Page 2 links to Page 0 and 3
+        {0, 0, 1, 0}   // Page 3 links to Page 2
+    };
+
+    vector&lt;double&gt; rank(n, 1.0 / n);
+    vector&lt;double&gt; newRank(n, 0.0);
+
+    for (int iter = 0; iter &lt; MAX_ITER; iter++) {
+        for (int i = 0; i &lt; n; i++) {
+            newRank[i] = (1 - DAMPING) / n;
+        }
+
+        for (int i = 0; i &lt; n; i++) {
+            int outlinks = 0;
+            for (int j = 0; j &lt; n; j++) {
+                outlinks += links[i][j];
+            }
+            if (outlinks == 0) continue;
+
+            for (int j = 0; j &lt; n; j++) {
+                if (links[i][j]) {
+                    newRank[j] += DAMPING * rank[i] / outlinks;
+                }
+            }
+        }
+
+        // Check convergence
+        double diff = 0.0;
+        for (int i = 0; i &lt; n; i++) {
+            diff += fabs(newRank[i] - rank[i]);
+            rank[i] = newRank[i];
+        }
+
+        if (diff &lt; EPSILON) break;
+    }
+
+    cout &lt;&lt; "PageRank Scores:" &lt;&lt; endl;
+    for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; "Page " &lt;&lt; i &lt;&lt; ": " &lt;&lt; rank[i] &lt;&lt; endl;
+    }
+
+    return 0;
+}
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">🎯</span>
+                    2. Learning-to-Rank (LTR)
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To optimize search result rankings using machine learning techniques.</p>
+                    <p>Learns from user interactions, clicks, and purchases to improve ranking quality.</p>
+                    <p>Minimal example of LTR concept using pairwise ranking is shown.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Training: <span class="complexity-value">O(n * m * log m)</span> where n = queries, m = documents per query</p>
+                        <p>Prediction: <span class="complexity-value">O(m * f)</span> where f = number of features</p>
+                        <p>Feature extraction: <span class="complexity-value">O(f)</span></p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p>Training data: <span class="complexity-value">O(n * m * f)</span></p>
+                        <p>Model parameters: <span class="complexity-value">O(f)</span> for linear models</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            
+<pre><code class="language-cpp">
+//Learning-to-Rank example using pairwise ranking
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+struct Item {
+    int id;
+    double score;    // Predicted relevance score
+    int label;       // Ground truth relevance label
+};
+
+// Comparator for pairwise ranking
+bool pairwiseCompare(const Item &a, const Item &b) {
+    if (a.label == b.label) {
+        return a.score &gt; b.score;  // Same relevance: higher predicted score first
+    }
+    return a.label &gt; b.label;      // Higher relevance label first
+}
+
+int main() {
+    vector&lt;Item&gt; items = {
+        {1, 0.8, 2},
+        {2, 0.7, 3},
+        {3, 0.9, 1},
+        {4, 0.6, 2}
+    };
+
+    // Sort items by pairwise comparison
+    sort(items.begin(), items.end(), pairwiseCompare);
+
+    cout &lt;&lt; "Ranked items (by predicted score &amp; relevance):\n";
+    for (auto &amp;item : items) {
+        cout &lt;&lt; "Item " &lt;&lt; item.id &lt;&lt; ": score=" &lt;&lt; item.score &lt;&lt; ", label=" &lt;&lt; item.label &lt;&lt; endl;
+    }
+
+    return 0;
+}
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">🌲</span>
+                    3. Gradient Boosted Decision Trees (GBDT)
+                </h3>
+                
+                <div class="section-block">
+                    <h4>What is GBDT?</h4>
+                    <p>
+                        GBDT is an ensemble machine learning algorithm that builds models in a stage-wise fashion by combining many weak decision trees.
+
+Each tree corrects the errors (residuals) of the previous ensemble.
+
+It uses gradient descent to minimize a loss function by fitting new trees to the gradients of the loss.
+
+Widely used for regression, classification, and ranking tasks because of its accuracy and flexibility.
+                    </p>
+                </div>
+
+                  <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To create powerful ensemble models for ranking and recommendation.</p>
+                    <p>Combines multiple weak learners to create a strong predictive model for product relevance.</p>
+                </div>
+                
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Training: <span class="complexity-value">O(T * n * m * log n)</span> where T = trees, n = samples, m = features</p>
+                        <p>Prediction: <span class="complexity-value">O(T * log n)</span></p>
+                        <p>Feature importance: <span class="complexity-value">O(T * n)</span></p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p>Model storage: <span class="complexity-value">O(T * nodes_per_tree)</span></p>
+                        <p>Training: <span class="complexity-value">O(n * m)</span> for data</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            
+<pre><code class="language-cpp">
+// Simplified conceptual GBDT example
+
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+using namespace std;
+
+struct Tree {
+    // Dummy tree model predicting a constant value
+    double prediction;
+    Tree(double p) : prediction(p) {}
+
+    double predict(double x) {
+        return prediction;
+    }
+};
+
+int main() {
+    vector&lt;Tree&gt; trees;
+    vector&lt;double&gt; residuals = {1.0, 2.0, 3.0}; // Dummy residuals
+
+    // Simulate boosting with 3 trees
+    for (int i = 0; i &lt; 3; ++i) {
+        double pred = 0.5 * (i + 1); // Dummy prediction
+        trees.emplace_back(pred);
+
+        cout &lt;&lt; "Tree " &lt;&lt; i+1 &lt;&lt; " predicts: " &lt;&lt; pred &lt;&lt; endl;
+
+        // Update residuals (dummy update)
+        for (auto&amp;r : residuals) {
+            r -= pred * 0.1; 
+        }
+    }
+
+    // Final prediction for input x = 5 (sum of tree preds)
+    double x = 5.0;
+    double final_pred = 0.0;
+    for (auto&amp; tree : trees) {
+        final_pred += tree.predict(x);
+    }
+
+    cout &lt;&lt; "Final GBDT prediction: " &lt;&lt; final_pred &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="references-section">
+                <h2>
+                    <span class="algorithm-emoji">🔗</span>
+                    References
+                </h2>
+                
+                <div class="reference-item">
+                    <h4>PageRank Algorithm</h4>
+                    <p><a href="#">"The PageRank Citation Ranking" - Brin & Page (1998)</a></p>
+                    <p><a href="#">Stanford CS246: Mining Massive Datasets</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>Learning-to-Rank</h4>
+                    <p><a href="#">"Learning to Rank for Information Retrieval" - Liu (2009)</a></p>
+                    <p><a href="#">Microsoft Research LTR Papers</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>Gradient Boosted Decision Trees</h4>
+                    <p><a href="#">"Greedy Function Approximation" - Friedman (2001)</a></p>
+                    <p><a href="#">XGBoost: A Scalable Tree Boosting System</a></p>
+                    <p><a href="#">LightGBM: A Highly Efficient Gradient Boosting Decision Tree</a></p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Prajwal | Amazon Product Ranking Deep Dive</p>
+        </div>
+    </footer>
+    
+    <script>
+        function copyCode(button) {
+            const codeSnippet = button.closest('.code-snippet-container').querySelector('.code-snippet');
+            const text = codeSnippet.textContent || codeSnippet.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#ff9900';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
