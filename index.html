@@ -373,58 +373,211 @@
 
     
     <!-- Amazon Business Case Section -->
-    <section id="amazon" class="amazon-case">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Domain: Amazon</h2>
-                <p class="section-subtitle">Why Amazon aligns with my passion for innovation</p>
+<section id="business-cases" class="amazon-case">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Domain: Amazon</h2>
+       <div class="why-amazon">
+            <h3>Why Amazon?</h3>
+            <p>
+                Amazon's commitment to customer obsession, innovation, and scale perfectly aligns with my 
+                passion for creating impactful digital experiences. Their culture of ownership and continuous 
+                learning resonates with my growth mindset as a developer.
+            </p>
             </div>
-            <div class="amazon-content">
-                <div class="amazon-intro">
-                    <h3>Why Amazon?</h3>
-                    <p>
-                        Amazon's commitment to customer obsession, innovation, and scale perfectly aligns with my 
-                        passion for creating impactful digital experiences. Their culture of ownership and continuous 
-                        learning resonates with my growth mindset as a developer.
-                    </p>
-                </div>
-                
-                <div class="amazon-alignment">
-                    <h3>Project Alignment with Amazon's Domains</h3>
-                    <div class="alignment-grid">
-                        <div class="alignment-item">
-                            <div class="alignment-icon">🛒</div>
-                            <h4>E-Commerce Platform</h4>
-                            <p>My e-commerce project demonstrates understanding of scalable architecture, 
-                               user experience optimization, and payment systems - core to Amazon's retail business.</p>
-                        </div>
-                        <div class="alignment-item">
-                            <div class="alignment-icon">📊</div>
-                            <h4>Data Analytics</h4>
-                            <p>Task management app showcases real-time data processing and analytics capabilities, 
-                               essential for Amazon's data-driven decision making.</p>
-                        </div>
-                        <div class="alignment-item">
-                            <div class="alignment-icon">☁️</div>
-                            <h4>Cloud Solutions</h4>
-                            <p>Weather dashboard demonstrates API integration and data visualization skills, 
-                               relevant to AWS cloud services and data management.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="amazon-cta">
-                    <a href="amazon-research.html" class="btn btn-amazon">
-                        <span>Explore My Amazon Search Research</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+
+      <p class="section-subtitle">Explore business cases tackled using DSA & algorithmic thinking</p>
+    </div>
+
+    <div class="cases-container">
+      <div class="cases-expanded" id="expanded-case">
+        <h3 class="case-title">Product Search Optimization</h3>
+        <p class="case-description">
+          Uses Trie, TF-IDF, Inverted Index, and Autocomplete algorithms to improve speed and accuracy of product search.
+        </p>
+        <a href="case1.html" class="case-button">Explore Deeply →</a>
+      </div>
+
+      <div class="cases-list" id="cases-list">
+        <div class="case-item" data-index="1">
+          <h4>Efficient Product Storage</h4>
         </div>
-    </section>
+        <div class="case-item" data-index="2">
+          <h4>Smart Recommendations</h4>
+        </div>
+        <div class="case-item" data-index="3">
+          <h4>Dynamic Pricing Algorithm</h4>
+        </div>
+        <div class="case-item" data-index="4">
+          <h4>Video Recommendations (Prime)</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .amazon-case {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    padding: 6rem 0;
+  }
+
+  .cases-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .cases-expanded {
+    width: 60vw;
+    max-width: 800px;
+    height: auto;
+    min-height: 250px;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: var(--border-radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    overflow: hidden;
+  }
+
+  .cases-expanded.shrink {
+    transform: scale(0.3);
+    opacity: 0.5;
+  }
+
+  .cases-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .case-item {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.5s ease;
+    min-width: 200px;
+    text-align: center;
+  }
+
+  .case-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+  }
+
+  .case-title {
+    font-size: 2rem;
+    color: #ff9900;
+    margin-bottom: 1rem;
+  }
+
+  .case-description {
+    color: #ddd;
+    margin-bottom: 1.5rem;
+  }
+
+  .case-button {
+    display: inline-block;
+    background-color: #ff9900;
+    color: #000;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .why-amazon {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.why-amazon h3 {
+  font-size: 2rem;
+  color: #ff9900;
+  margin-bottom: 1rem;
+  font-family: var(--font-heading);
+}
+
+.why-amazon p {
+  font-size: 1.125rem;
+  color: var(--text-light);
+  line-height: 1.7;
+}
+
+</style>
+
+<script>
+  const cases = [
+    {
+      title: "Product Search Optimization",
+      description:
+        "Uses Trie, TF-IDF, Inverted Index, and Autocomplete algorithms to improve speed and accuracy of product search.",
+      link: "case1.html",
+    },
+    {
+      title: "Efficient Product Storage",
+      description:
+        "Amazon uses Hash Maps, Red-Black Trees, and B+ Trees for inventory and real-time updates in warehouses.",
+      link: "case2.html",
+    },
+    {
+      title: "Smart Recommendations",
+      description:
+        "Collaborative filtering, k-NN, and matrix factorization power smart cross-selling suggestions.",
+      link: "case3.html",
+    },
+    {
+      title: "Dynamic Pricing Algorithm",
+      description:
+        "Graph algorithms, real-time data structures like heaps and queues help adjust prices based on trends.",
+      link: "case4.html",
+    },
+    {
+      title: "Video Recommendations (Prime)",
+      description:
+        "Recommendation engines use Content-based Filtering, Deep Learning, and Graph-Based methods.",
+      link: "case5.html",
+    },
+  ];
+
+  const listContainer = document.getElementById("cases-list");
+  const expandedContainer = document.getElementById("expanded-case");
+
+  listContainer.addEventListener("click", (e) => {
+    const target = e.target.closest(".case-item");
+    if (!target) return;
+    const index = parseInt(target.dataset.index);
+
+    expandedContainer.classList.add("shrink");
+
+    setTimeout(() => {
+      expandedContainer.innerHTML = `
+        <h3 class="case-title">${cases[index].title}</h3>
+        <p class="case-description">${cases[index].description}</p>
+        <a href="${cases[index].link}" class="case-button">Explore Deeply →</a>
+      `;
+
+      expandedContainer.classList.remove("shrink");
+    }, 300);
+
+    const oldTitle = expandedContainer.querySelector(".case-title").textContent;
+    const oldIndex = cases.findIndex((c) => oldTitle.includes(c.title));
+
+    const oldItem = document.createElement("div");
+    oldItem.classList.add("case-item");
+    oldItem.setAttribute("data-index", oldIndex);
+    oldItem.innerHTML = `<h4>${cases[oldIndex].title}</h4>`;
+
+    target.replaceWith(oldItem);
+  });
+</script>
+
     
     <!-- Contact Section -->
     <section id="contact" class="contact">
