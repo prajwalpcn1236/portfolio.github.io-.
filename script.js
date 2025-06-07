@@ -196,41 +196,6 @@ function initParticles() {
 }
 
 // Typing Animation
-function initTypingAnimation() {
-    const typingText = document.getElementById('typing-text');
-    const cursorBlink = document.getElementById('cursor-blink');
-    
-    if (!typingText || !cursorBlink) return;
-    
-    const text = 'Prajwal';
-    let currentText = '';
-    let isDeleting = false;
-    let typeSpeed = 150;
-    
-    function type() {
-        if (!isDeleting && currentText.length < text.length) {
-            currentText += text.charAt(currentText.length);
-            typingText.textContent = currentText;
-        } else if (isDeleting && currentText.length > 0) {
-            currentText = currentText.slice(0, -1);
-            typingText.textContent = currentText;
-        }
-        
-        if (currentText.length === text.length && !isDeleting) {
-            setTimeout(() => {
-                cursorBlink.style.animation = 'none';
-                setTimeout(() => {
-                    cursorBlink.style.animation = 'blink 1s infinite';
-                }, 2000);
-            }, 1000);
-            return;
-        }
-        
-        setTimeout(type, typeSpeed);
-    }
-    
-    setTimeout(type, 1000);
-}
 
 // Scroll Animations (Intersection Observer)
 function initScrollAnimations() {
