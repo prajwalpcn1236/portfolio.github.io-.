@@ -1308,3 +1308,88 @@ section {
         scroll-behavior: auto;
     }
 }
+
+
+  const cases = [
+    {
+      title: "Product Search Optimization",
+      description:
+        "Uses Trie, TF-IDF, Inverted Index, and Autocomplete algorithms to improve speed and accuracy of product search.",
+      link: "case1.html",
+    },
+    {
+      title: "Efficient Product Storage",
+      description:
+        "Amazon uses Hash Maps, Red-Black Trees, and B+ Trees for inventory and real-time updates in warehouses.",
+      link: "case2.html",
+    },
+    {
+      title: "Smart Recommendations",
+      description:
+        "Collaborative filtering, k-NN, and matrix factorization power smart cross-selling suggestions.",
+      link: "case3.html",
+    },
+    {
+      title: "Dynamic Pricing Algorithm",
+      description:
+        "Graph algorithms, real-time data structures like heaps and queues help adjust prices based on trends.",
+      link: "case4.html",
+    },
+    {
+      title: "Video Recommendations (Prime)",
+      description:
+        "Recommendation engines use Content-based Filtering, Deep Learning, and Graph-Based methods.",
+      link: "case5.html",
+    },
+  ];
+
+  const listContainer = document.getElementById("cases-list");
+  const expandedContainer = document.getElementById("expanded-case");
+
+  let selectedIndex = 0; // default selected case index
+
+  function renderCasesList() {
+    listContainer.innerHTML = "";
+    cases.forEach((c, i) => {
+      const div = document.createElement("div");
+      div.classList.add("case-item");
+      if (i === selectedIndex) {
+        div.classList.add("selected");
+      }
+      div.setAttribute("data-index", i);
+      div.innerHTML = `<h4>${c.title}</h4>`;
+      listContainer.appendChild(div);
+    });
+  }
+
+  function renderExpandedCase(index) {
+    const c = cases[index];
+    expandedContainer.innerHTML = `
+      <h3 class="case-title">${c.title}</h3>
+      <p class="case-description">${c.description}</p>
+      <a href="${c.link}" class="case-button">Explore Deeply →</a>
+    `;
+  }
+
+  listContainer.addEventListener("click", (e) => {
+    const target = e.target.closest(".case-item");
+    if (!target) return;
+    const index = parseInt(target.dataset.index);
+
+    if (index === selectedIndex) return; // already selected, do nothing
+
+    expandedContainer.classList.add("shrink");
+
+    setTimeout(() => {
+      selectedIndex = index;
+      renderExpandedCase(selectedIndex);
+      renderCasesList();
+      expandedContainer.classList.remove("shrink");
+    }, 300);
+  });
+
+  // Initial render on page load
+  renderCasesList();
+  renderExpandedCase(selectedIndex);
+
+
