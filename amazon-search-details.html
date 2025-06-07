@@ -9,7 +9,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+<script>hljs.highlightAll();</script>
+    
     <style>
+
         :root {
             --primary-color: #ff9900;
             --secondary-color: #146eb4;
@@ -39,6 +51,8 @@
             color: var(--text-primary);
             background-color: var(--bg-secondary);
         }
+
+
         
         header {
             background: var(--text-primary);
@@ -349,61 +363,62 @@
                     </div>
                     <div class="code-snippet">
                         <div class="code-placeholder">
-                            <p>
-                                #include <iostream>
-                                #include <unordered_map>
-                                #include <vector>
-                                using namespace std;
-                                
-                                class TrieNode {
-                                public:
-                                    unordered_map<char, TrieNode*> children;
-                                    bool isEndOfWord;
-                                
-                                    TrieNode() : isEndOfWord(false) {}
-                                };
-                                
-                                class Trie {
-                                    TrieNode* root;
-                                
-                                    void dfs(TrieNode* node, string path, vector<string>& results) {
-                                        if (node->isEndOfWord)
-                                            results.push_back(path);
-                                
-                                        for (auto& [ch, child] : node->children)
-                                            dfs(child, path + ch, results);
-                                    }
-                                
-                                public:
-                                    Trie() {
-                                        root = new TrieNode();
-                                    }
-                                
-                                    void insert(const string& word) {
-                                        TrieNode* node = root;
-                                        for (char c : word) {
-                                            if (!node->children[c])
-                                                node->children[c] = new TrieNode();
-                                            node = node->children[c];
-                                        }
-                                        node->isEndOfWord = true;
-                                    }
-                                
-                                    vector<string> autocomplete(const string& prefix) {
-                                        TrieNode* node = root;
-                                        for (char c : prefix) {
-                                            if (!node->children[c]) return {};
-                                            node = node->children[c];
-                                        }
-                                
-                                        vector<string> results;
-                                        dfs(node, prefix, results);
-                                        return results;
-                                    }
-                                };
-
                             
-                            </p>
+                                                        
+                            <pre><code class="language-cpp">
+                            #include &lt;iostream&gt;
+                            #include &lt;unordered_map&gt;
+                            #include &lt;vector&gt;
+                            using namespace std;
+
+                            class TrieNode {
+                            public:
+                                unordered_map&lt;char, TrieNode*&gt; children;
+                                bool isEndOfWord;
+
+                                TrieNode() : isEndOfWord(false) {}
+                            };
+
+                            class Trie {
+                                TrieNode* root;
+
+                                void dfs(TrieNode* node, string path, vector&lt;string&gt;&amp; results) {
+                                    if (node-&gt;isEndOfWord)
+                                        results.push_back(path);
+
+                                    for (auto&amp; [ch, child] : node-&gt;children)
+                                        dfs(child, path + ch, results);
+                                }
+
+                            public:
+                                Trie() {
+                                    root = new TrieNode();
+                                }
+
+                                void insert(const string&amp; word) {
+                                    TrieNode* node = root;
+                                    for (char c : word) {
+                                        if (!node-&gt;children[c])
+                                            node-&gt;children[c] = new TrieNode();
+                                        node = node-&gt;children[c];
+                                    }
+                                    node-&gt;isEndOfWord = true;
+                                }
+
+                                vector&lt;string&gt; autocomplete(const string&amp; prefix) {
+                                    TrieNode* node = root;
+                                    for (char c : prefix) {
+                                        if (!node-&gt;children[c]) return {};
+                                        node = node-&gt;children[c];
+                                    }
+
+                                    vector&lt;string&gt; results;
+                                    dfs(node, prefix, results);
+                                    return results;
+                                }
+                            };
+                            </code></pre>
+
                         </div>
                     </div>
                 </div>
@@ -442,8 +457,82 @@
                     </div>
                     <div class="code-snippet">
                         <div class="code-placeholder">
-                            Paste your TF-IDF implementation code here...<br>
-                            <small>This flexible container will adapt to any code length</small>
+                                   
+                            <pre><code class="language-cpp">
+                                    #include &lt;iostream&gt;
+                                    #include &lt;unordered_map&gt;
+                                    #include &lt;vector&gt;
+                                    #include &lt;string&gt;
+                                    #include &lt;cmath&gt;
+                                    #include &lt;sstream&gt;
+                                    using namespace std;
+
+                                    vector&lt;string&gt; tokenize(const string&amp; text) {
+                                        vector&lt;string&gt; tokens;
+                                        stringstream ss(text);
+                                        string word;
+                                        while (ss &gt;&gt; word) {
+                                            tokens.push_back(word);
+                                        }
+                                        return tokens;
+                                    }
+
+                                    unordered_map&lt;string, double&gt; computeTF(const vector&lt;string&gt;&amp; document) {
+                                        unordered_map&lt;string, double&gt; tf;
+                                        for (const string&amp; word : document) {
+                                            tf[word]++;
+                                        }
+                                        for (auto&amp; [word, count] : tf) {
+                                            tf[word] /= document.size();
+                                        }
+                                        return tf;
+                                    }
+
+                                    unordered_map&lt;string, double&gt; computeIDF(const vector&lt;vector&lt;string&gt;&gt;&amp; corpus) {
+                                        unordered_map&lt;string, double&gt; idf;
+                                        int N = corpus.size();
+                                        for (const auto&amp; doc : corpus) {
+                                            unordered_map&lt;string, bool&gt; seen;
+                                            for (const string&amp; word : doc) {
+                                                seen[word] = true;
+                                            }
+                                            for (const auto&amp; [word, _] : seen) {
+                                                idf[word]++;
+                                            }
+                                        }
+                                        for (auto&amp; [word, count] : idf) {
+                                            idf[word] = log((double)N / (1 + count));
+                                        }
+                                        return idf;
+                                    }
+
+                                    unordered_map&lt;string, double&gt; computeTFIDF(
+                                        const vector&lt;string&gt;&amp; doc,
+                                        const unordered_map&lt;string, double&gt;&amp; idf
+                                    ) {
+                                        unordered_map&lt;string, double&gt; tf = computeTF(doc);
+                                        unordered_map&lt;string, double&gt; tfidf;
+                                        for (const auto&amp; [word, tf_val] : tf) {
+                                            tfidf[word] = tf_val * idf.at(word);
+                                        }
+                                        return tfidf;
+                                    }
+
+                                    int main() {
+                                        vector&lt;string&gt; doc1 = tokenize("apple banana apple");
+                                        vector&lt;string&gt; doc2 = tokenize("banana fruit banana orange");
+                                        vector&lt;vector&lt;string&gt;&gt; corpus = { doc1, doc2 };
+
+                                        unordered_map&lt;string, double&gt; idf = computeIDF(corpus);
+                                        unordered_map&lt;string, double&gt; tfidf1 = computeTFIDF(doc1, idf);
+
+                                        for (const auto&amp; [word, score] : tfidf1) {
+                                            cout &lt;&lt; word &lt;&lt; ": " &lt;&lt; score &lt;&lt; endl;
+                                        }
+
+                                        return 0;
+                                    }
+                                    </code></pre>
                         </div>
                     </div>
                 </div>
@@ -483,52 +572,69 @@
                     </div>
                     <div class="code-snippet">
                         <div class="code-placeholder">
-                            Paste your Inverted Index implementation code here...<br>
-                            <small>This flexible container will adapt to any code length</small>
+                             <pre><code class="language-cpp">
+
+
+#include &lt;iostream&gt;
+#include &lt;unordered_map&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;set&gt;
+using namespace std;
+
+vector&lt;string&gt; tokenize(const string&amp; text) {
+    vector&lt;string&gt; tokens;
+    stringstream ss(text);
+    string word;
+    while (ss &gt;&gt; word) {
+        tokens.push_back(word);
+    }
+    return tokens;
+}
+
+unordered_map&lt;string, set&lt;int&gt;&gt; buildInvertedIndex(const vector&lt;string&gt;&amp; documents) {
+    unordered_map&lt;string, set&lt;int&gt;&gt; index;
+    for (int docId = 0; docId &lt; documents.size(); ++docId) {
+        vector&lt;string&gt; words = tokenize(documents[docId]);
+        for (const string&amp; word : words) {
+            index[word].insert(docId);
+        }
+    }
+    return index;
+}
+
+void printIndex(const unordered_map&lt;string, set&lt;int&gt;&gt;&amp; index) {
+    for (const auto&amp; [word, docSet] : index) {
+        cout &lt;&lt; word &lt;&lt; ": ";
+        for (int docId : docSet) {
+            cout &lt;&lt; docId &lt;&lt; " ";
+        }
+        cout &lt;&lt; endl;
+    }
+}
+
+int main() {
+    vector&lt;string&gt; docs = {
+        "apple banana mango",
+        "banana apple orange",
+        "mango fruit banana"
+    };
+
+    auto index = buildInvertedIndex(docs);
+    printIndex(index);
+
+    return 0;
+}
+  </code></pre>
+
+
                         </div>
                     </div>
                 </div>
             </section>
             
-            <section class="algorithm-section">
-                <h3 class="algorithm-title">
-                    <span class="algorithm-emoji">📘</span>
-                    4. Autocomplete Algorithms
-                </h3>
-                
-                <div class="section-block">
-                    <h4>✅ Why Used:</h4>
-                    <p>To predict queries as users type, speeding up the search process.</p>
-                    <p>Often built using Trie + ranking model (e.g., past frequency, trending score).</p>
-                </div>
-                
-                <div class="complexity-grid">
-                    <div class="complexity-item">
-                        <h5>⏱️ Time Complexity:</h5>
-                        <p>Prediction: <span class="complexity-value">O(L + k)</span></p>
-                        <p>L = prefix length</p>
-                        <p>k = number of suggestions to return</p>
-                    </div>
-                    <div class="complexity-item">
-                        <h5>🧠 Space Complexity:</h5>
-                        <p>Same as Trie: <span class="complexity-value">O(N * L)</span></p>
-                        <p>Extra memory if storing ranking/frequency with each node.</p>
-                    </div>
-                </div>
-                
-                <div class="code-snippet-container">
-                    <div class="code-snippet-header">
-                        <span>Implementation Code</span>
-                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
-                    </div>
-                    <div class="code-snippet">
-                        <div class="code-placeholder">
-                            Paste your Autocomplete implementation code here...<br>
-                            <small>This flexible container will adapt to any code length</small>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            
             
             <section class="references-section">
                 <h2>
@@ -571,6 +677,10 @@
     </footer>
     
     <script>
+
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"
+
         function copyCode(button) {
             const codeSnippet = button.closest('.code-snippet-container').querySelector('.code-snippet');
             const text = codeSnippet.textContent || codeSnippet.innerText;
