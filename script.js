@@ -81,6 +81,41 @@ function initNavigation() {
     });
 }
 
+// Typing Text Animation
+const typingTextElement = document.getElementById('typing-text');
+const cursorBlinkElement = document.getElementById('cursor-blink');
+const words = ["Prajwal", "a Developer", "a Designer"];
+let wordIndex = 0;
+let charIndex = 0;
+
+function type() {
+    if (charIndex < words[wordIndex].length) {
+        typingTextElement.textContent += words[wordIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 100); // Typing speed
+    } else {
+        setTimeout(erase, 3000); // Wait before erasing
+    }
+}
+
+function erase() {
+    if (charIndex > 0) {
+        typingTextElement.textContent = words[wordIndex].substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, 50); // Erasing speed
+    } else {
+        wordIndex++;
+        if (wordIndex >= words.length) wordIndex = 0;
+        setTimeout(type, 1500); // Wait before typing next word
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typingTextElement && cursorBlinkElement) {
+        type();
+    }
+});
+
 // Custom Cursor
 function initCustomCursor() {
     const cursor = document.querySelector('.cursor');
