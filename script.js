@@ -81,6 +81,7 @@ function initNavigation() {
     });
 }
 
+
 // Typing Text Animation
 const typingTextElement = document.getElementById('typing-text');
 const cursorBlinkElement = document.getElementById('cursor-blink');
@@ -115,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         type();
     }
 });
+
 
 // Custom Cursor
 function initCustomCursor() {
