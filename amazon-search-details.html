@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Search Algorithm - Data Structures & Algorithms</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff9900;
+            --secondary-color: #146eb4;
+            --text-primary: #232f3e;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-heading: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Fira Code', 'SF Mono', Monaco, monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+        
+        header {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .header-content h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-content p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: white;
+        }
+        
+        main {
+            padding: 4rem 0;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 4rem;
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .algorithm-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        
+        .algorithm-section:nth-child(even) {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .algorithm-section:nth-child(3) {
+            border-left-color: #9553e9;
+        }
+        
+        .algorithm-section:nth-child(4) {
+            border-left-color: #41c7c7;
+        }
+        
+        .algorithm-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .algorithm-emoji {
+            font-size: 1.5rem;
+        }
+        
+        .section-block {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        
+        .section-block h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-block p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .complexity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .complexity-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .complexity-item h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .complexity-value {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            background: rgba(20, 110, 180, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .code-snippet-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .code-snippet-header {
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-snippet {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0 0 8px 8px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 200px;
+            border: 2px dashed #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .code-placeholder {
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #e68900;
+        }
+        
+        .references-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+        
+        .references-section h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .reference-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .reference-item h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .reference-item a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .reference-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .complexity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .algorithm-section {
+                padding: 1.5rem;
+            }
+            
+            .code-snippet-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Amazon Search Algorithm</h1>
+                <p>Deep dive into the data structures and algorithms powering Amazon's search system</p>
+                <a href="index.html" class="back-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">📘</span>
+                    1. Trie (Prefix Tree)
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To implement fast autocomplete and prefix search.</p>
+                    <p>As users type a query, it predicts and suggests product names starting with the same prefix.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Insertion: <span class="complexity-value">O(L)</span> where L = length of the word</p>
+                        <p>Search (prefix or full): <span class="complexity-value">O(L)</span></p>
+                        <p>Autocomplete (suggestions): <span class="complexity-value">O(L + k)</span> where k = number of suggestions returned</p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p>Worst-case: <span class="complexity-value">O(N * L)</span> where N is the number of words, L is average word length.</p>
+                        <p>Each node can have up to 26 (or more if Unicode) children.</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            Paste your Trie implementation code here...<br>
+                            <small>This flexible container will adapt to any code length</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">📘</span>
+                    2. TF-IDF (Term Frequency - Inverse Document Frequency)
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To weigh important terms more than common ones.</p>
+                    <p>Helps in ranking product descriptions based on relevance to query.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>TF computation: <span class="complexity-value">O(N * T)</span> where N = number of documents (products), T = average number of terms per doc</p>
+                        <p>IDF computation: <span class="complexity-value">O(N)</span> (once per term)</p>
+                        <p>Ranking query: <span class="complexity-value">O(Q)</span> where Q = number of query terms</p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p>TF matrix: <span class="complexity-value">O(N * T)</span></p>
+                        <p>IDF table: <span class="complexity-value">O(V)</span> where V = vocabulary size</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            Paste your TF-IDF implementation code here...<br>
+                            <small>This flexible container will adapt to any code length</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">📘</span>
+                    3. Inverted Index
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To instantly locate all documents (products) containing a given term.</p>
+                    <p>Efficiently supports full-text search at scale.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Index construction: <span class="complexity-value">O(N * T)</span> where N = docs, T = tokens per doc</p>
+                        <p>Query retrieval: <span class="complexity-value">O(1)</span> (with hashmap) per term</p>
+                        <p>AND queries (e.g., "wireless headphones"): linear in the size of the posting lists</p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p><span class="complexity-value">O(V + P)</span></p>
+                        <p>V = vocabulary</p>
+                        <p>P = total postings = number of term-doc pairs</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            Paste your Inverted Index implementation code here...<br>
+                            <small>This flexible container will adapt to any code length</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">📘</span>
+                    4. Autocomplete Algorithms
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To predict queries as users type, speeding up the search process.</p>
+                    <p>Often built using Trie + ranking model (e.g., past frequency, trending score).</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Prediction: <span class="complexity-value">O(L + k)</span></p>
+                        <p>L = prefix length</p>
+                        <p>k = number of suggestions to return</p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p>Same as Trie: <span class="complexity-value">O(N * L)</span></p>
+                        <p>Extra memory if storing ranking/frequency with each node.</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            Paste your Autocomplete implementation code here...<br>
+                            <small>This flexible container will adapt to any code length</small>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="references-section">
+                <h2>
+                    <span class="algorithm-emoji">🔗</span>
+                    References
+                </h2>
+                
+                <div class="reference-item">
+                    <h4>Trie Data Structure</h4>
+                    <p><a href="#">MIT Lecture Notes on Tries</a></p>
+                    <p><a href="#">"Algorithms" by Robert Sedgewick & Kevin Wayne (Princeton)</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>TF-IDF Algorithm</h4>
+                    <p><a href="#">Stanford IR Book (Chapter 6)</a></p>
+                    <p><a href="#">Manning, Raghavan, and Schütze — Introduction to Information Retrieval</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>Inverted Index</h4>
+                    <p><a href="#">Stanford IR Book (Chapter 1 & 2)</a></p>
+                    <p><a href="#">Apache Lucene documentation (used in ElasticSearch)</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>Autocomplete Systems</h4>
+                    <p><a href="#">Google Research Papers on Query Auto-Completion</a></p>
+                    <p><a href="#">"Scalable Suggestion Indexes" - ACM</a></p>
+                    <p><a href="#">Trie + Weighting Implementation</a></p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Prajwal | Amazon Search Algorithm Deep Dive</p>
+        </div>
+    </footer>
+    
+    <script>
+        function copyCode(button) {
+            const codeSnippet = button.closest('.code-snippet-container').querySelector('.code-snippet');
+            const text = codeSnippet.textContent || codeSnippet.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#ff9900';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
