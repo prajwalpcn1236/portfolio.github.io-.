@@ -377,14 +377,19 @@
   <div class="container">
     <div class="section-header">
       <h2 class="section-title">Domain: Amazon</h2>
-       <div class="why-amazon">
-            <h3>Why Amazon?</h3>
-            <p>
-                Amazon's commitment to customer obsession, innovation, and scale perfectly aligns with my 
-                passion for creating impactful digital experiences. Their culture of ownership and continuous 
-                learning resonates with my growth mindset as a developer.
-            </p>
-            </div>
+
+      <div class="why-amazon">
+        <h3>Why Amazon?</h3>
+        <p>
+          Amazon's commitment to customer obsession, innovation, and scale perfectly aligns with my
+          passion for creating impactful digital experiences. Their culture of ownership and continuous
+          learning resonates with my growth mindset as a developer.
+        </p>
+      </div>
+
+      <div class="business-cases-title" style="text-align:center; margin-bottom:2rem; color: #ff9900;">
+        <h3>Business cases of Amazon</h3>
+      </div>
 
       <p class="section-subtitle">Explore business cases tackled using DSA & algorithmic thinking</p>
     </div>
@@ -399,18 +404,7 @@
       </div>
 
       <div class="cases-list" id="cases-list">
-        <div class="case-item" data-index="1">
-          <h4>Efficient Product Storage</h4>
-        </div>
-        <div class="case-item" data-index="2">
-          <h4>Smart Recommendations</h4>
-        </div>
-        <div class="case-item" data-index="3">
-          <h4>Dynamic Pricing Algorithm</h4>
-        </div>
-        <div class="case-item" data-index="4">
-          <h4>Video Recommendations (Prime)</h4>
-        </div>
+        <!-- Small case items will be rendered here -->
       </div>
     </div>
   </div>
@@ -470,6 +464,14 @@
     transform: scale(1.05);
   }
 
+  .case-item.selected {
+    background-color: rgba(255, 153, 0, 0.3); /* highlight */
+    font-weight: bold;
+    transform: scale(1.1);
+    cursor: default;
+    pointer-events: none; /* disable clicking the selected item */
+  }
+
   .case-title {
     font-size: 2rem;
     color: #ff9900;
@@ -492,24 +494,23 @@
   }
 
   .why-amazon {
-  max-width: 800px;
-  margin: 0 auto 3rem;
-  text-align: center;
-}
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
 
-.why-amazon h3 {
-  font-size: 2rem;
-  color: #ff9900;
-  margin-bottom: 1rem;
-  font-family: var(--font-heading);
-}
+  .why-amazon h3 {
+    font-size: 2rem;
+    color: #ff9900;
+    margin-bottom: 1rem;
+    font-family: var(--font-heading);
+  }
 
-.why-amazon p {
-  font-size: 1.125rem;
-  color: var(--text-light);
-  line-height: 1.7;
-}
-
+  .why-amazon p {
+    font-size: 1.125rem;
+    color: var(--text-light);
+    line-height: 1.7;
+  }
 </style>
 
 <script>
@@ -549,33 +550,51 @@
   const listContainer = document.getElementById("cases-list");
   const expandedContainer = document.getElementById("expanded-case");
 
+  let selectedIndex = 0; // default selected case index
+
+  function renderCasesList() {
+    listContainer.innerHTML = "";
+    cases.forEach((c, i) => {
+      const div = document.createElement("div");
+      div.classList.add("case-item");
+      if (i === selectedIndex) {
+        div.classList.add("selected");
+      }
+      div.setAttribute("data-index", i);
+      div.innerHTML = `<h4>${c.title}</h4>`;
+      listContainer.appendChild(div);
+    });
+  }
+
+  function renderExpandedCase(index) {
+    const c = cases[index];
+    expandedContainer.innerHTML = `
+      <h3 class="case-title">${c.title}</h3>
+      <p class="case-description">${c.description}</p>
+      <a href="${c.link}" class="case-button">Explore Deeply →</a>
+    `;
+  }
+
   listContainer.addEventListener("click", (e) => {
     const target = e.target.closest(".case-item");
     if (!target) return;
     const index = parseInt(target.dataset.index);
 
+    if (index === selectedIndex) return; // already selected, do nothing
+
     expandedContainer.classList.add("shrink");
 
     setTimeout(() => {
-      expandedContainer.innerHTML = `
-        <h3 class="case-title">${cases[index].title}</h3>
-        <p class="case-description">${cases[index].description}</p>
-        <a href="${cases[index].link}" class="case-button">Explore Deeply →</a>
-      `;
-
+      selectedIndex = index;
+      renderExpandedCase(selectedIndex);
+      renderCasesList();
       expandedContainer.classList.remove("shrink");
     }, 300);
-
-    const oldTitle = expandedContainer.querySelector(".case-title").textContent;
-    const oldIndex = cases.findIndex((c) => oldTitle.includes(c.title));
-
-    const oldItem = document.createElement("div");
-    oldItem.classList.add("case-item");
-    oldItem.setAttribute("data-index", oldIndex);
-    oldItem.innerHTML = `<h4>${cases[oldIndex].title}</h4>`;
-
-    target.replaceWith(oldItem);
   });
+
+  // Initial render on page load
+  renderCasesList();
+  renderExpandedCase(selectedIndex);
 </script>
 
     
