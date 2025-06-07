@@ -349,8 +349,61 @@
                     </div>
                     <div class="code-snippet">
                         <div class="code-placeholder">
-                            Paste your Trie implementation code here...<br>
-                            <small>This flexible container will adapt to any code length</small>
+                            <p>
+                                #include <iostream>
+                                #include <unordered_map>
+                                #include <vector>
+                                using namespace std;
+                                
+                                class TrieNode {
+                                public:
+                                    unordered_map<char, TrieNode*> children;
+                                    bool isEndOfWord;
+                                
+                                    TrieNode() : isEndOfWord(false) {}
+                                };
+                                
+                                class Trie {
+                                    TrieNode* root;
+                                
+                                    void dfs(TrieNode* node, string path, vector<string>& results) {
+                                        if (node->isEndOfWord)
+                                            results.push_back(path);
+                                
+                                        for (auto& [ch, child] : node->children)
+                                            dfs(child, path + ch, results);
+                                    }
+                                
+                                public:
+                                    Trie() {
+                                        root = new TrieNode();
+                                    }
+                                
+                                    void insert(const string& word) {
+                                        TrieNode* node = root;
+                                        for (char c : word) {
+                                            if (!node->children[c])
+                                                node->children[c] = new TrieNode();
+                                            node = node->children[c];
+                                        }
+                                        node->isEndOfWord = true;
+                                    }
+                                
+                                    vector<string> autocomplete(const string& prefix) {
+                                        TrieNode* node = root;
+                                        for (char c : prefix) {
+                                            if (!node->children[c]) return {};
+                                            node = node->children[c];
+                                        }
+                                
+                                        vector<string> results;
+                                        dfs(node, prefix, results);
+                                        return results;
+                                    }
+                                };
+
+                            
+                            </p>
                         </div>
                     </div>
                 </div>
