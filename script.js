@@ -94,7 +94,7 @@ function type() {
         charIndex++;
         setTimeout(type, 100); // Typing speed
     } else {
-        setTimeout(erase, 3000); // Wait before erasing
+        setTimeout(erase, 1500); // Wait before erasing
     }
 }
 
@@ -106,7 +106,7 @@ function erase() {
     } else {
         wordIndex++;
         if (wordIndex >= words.length) wordIndex = 0;
-        setTimeout(type, 1500); // Wait before typing next word
+        setTimeout(type, 500); // Wait before typing next word
     }
 }
 
