@@ -1,0 +1,540 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Dynamic Pricing - Data Structures & Algorithms</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/cpp.min.js"></script>
+<script>hljs.highlightAll();</script>
+  
+    <style>
+        :root {
+            --primary-color: #ff9900;
+            --secondary-color: #146eb4;
+            --text-primary: #232f3e;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-heading: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+            --font-mono: 'Fira Code', 'SF Mono', Monaco, monospace;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+        }
+        
+        header {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .header-content h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-content p {
+            color: #ccc;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: white;
+        }
+        
+        main {
+            padding: 4rem 0;
+        }
+        
+        .algorithm-section {
+            margin-bottom: 4rem;
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .algorithm-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        
+        .algorithm-section:nth-child(even) {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .algorithm-section:nth-child(3) {
+            border-left-color: #9553e9;
+        }
+        
+        .algorithm-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .algorithm-emoji {
+            font-size: 1.5rem;
+        }
+        
+        .section-block {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        
+        .section-block h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-block p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .complexity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .complexity-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .complexity-item h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .complexity-value {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            background: rgba(20, 110, 180, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .code-snippet-container {
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .code-snippet-header {
+            background: #1e293b;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .code-snippet {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 0 0 8px 8px;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 200px;
+            border: 2px dashed #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .code-placeholder {
+            color: #64748b;
+            font-style: italic;
+        }
+        
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #e68900;
+        }
+        
+        .references-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 4px solid #28a745;
+        }
+        
+        .references-section h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .reference-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #28a745;
+        }
+        
+        .reference-item h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .reference-item a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .reference-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: var(--text-primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .complexity-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .algorithm-section {
+                padding: 1.5rem;
+            }
+            
+            .code-snippet-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Dynamic Pricing Algorithm</h1>
+                <p>Deep dive into the algorithms powering Amazon's real-time pricing optimization</p>
+                <a href="index.html" class="back-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">🕸️</span>
+                    1. Graph Algorithms
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To model complex relationships between products, competitors, and market conditions.</p>
+                    <p>Enables analysis of pricing dependencies and market competition networks.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Graph traversal (DFS/BFS): <span class="complexity-value">O(V + E)</span></p>
+                        <p>Shortest path (Dijkstra): <span class="complexity-value">O((V + E) log V)</span></p>
+                        <p>Minimum spanning tree: <span class="complexity-value">O(E log V)</span></p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p>Adjacency list: <span class="complexity-value">O(V + E)</span></p>
+                        <p>Adjacency matrix: <span class="complexity-value">O(V²)</span></p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            <pre><code class="language-cpp">
+//BFS
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+
+using namespace std;
+
+class Graph {
+    int V; // number of vertices
+    vector&lt;vector&lt;int&gt;&gt; adj;
+
+public:
+    Graph(int V) : V(V), adj(V) {}
+
+    void addEdge(int u, int v) {
+        adj[u].push_back(v);
+        adj[v].push_back(u); // for undirected graph
+    }
+
+    void BFS(int start) {
+        vector&lt;bool&gt; visited(V, false);
+        queue&lt;int&gt; q;
+
+        visited[start] = true;
+        q.push(start);
+
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            cout &lt;&lt; u &lt;&lt; " ";
+
+            for (int v : adj[u]) {
+                if (!visited[v]) {
+                    visited[v] = true;
+                    q.push(v);
+                }
+            }
+        }
+    }
+};
+
+int main() {
+    Graph g(5);
+    g.addEdge(0,1);
+    g.addEdge(0,2);
+    g.addEdge(1,3);
+    g.addEdge(2,4);
+
+    cout &lt;&lt; "BFS traversal starting from node 0: ";
+    g.BFS(0);
+    cout &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="algorithm-section">
+                <h3 class="algorithm-title">
+                    <span class="algorithm-emoji">⛰️</span>
+                    2. Heaps (Priority Queues)
+                </h3>
+                
+                <div class="section-block">
+                    <h4>✅ Why Used:</h4>
+                    <p>To prioritize pricing updates based on urgency and market impact.</p>
+                    <p>Efficiently handles real-time price adjustment requests and competitive pricing alerts.</p>
+                </div>
+                
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <h5>⏱️ Time Complexity:</h5>
+                        <p>Insert: <span class="complexity-value">O(log n)</span></p>
+                        <p>Extract min/max: <span class="complexity-value">O(log n)</span></p>
+                        <p>Peek: <span class="complexity-value">O(1)</span></p>
+                    </div>
+                    <div class="complexity-item">
+                        <h5>🧠 Space Complexity:</h5>
+                        <p><span class="complexity-value">O(n)</span> where n is the number of elements</p>
+                        <p>Binary heap implementation using arrays</p>
+                    </div>
+                </div>
+                
+                <div class="code-snippet-container">
+                    <div class="code-snippet-header">
+                        <span>Implementation Code</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+                    </div>
+                    <div class="code-snippet">
+                        <div class="code-placeholder">
+                            <pre><code class="language-cpp">
+#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;vector&gt;
+
+using namespace std;
+
+int main() {
+    // Min-heap using priority_queue with greater comparator
+    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap;
+
+    minHeap.push(30);
+    minHeap.push(10);
+    minHeap.push(20);
+    minHeap.push(5);
+
+    cout &lt;&lt; "Elements in min-heap order:\n";
+    while (!minHeap.empty()) {
+        cout &lt;&lt; minHeap.top() &lt;&lt; " ";
+        minHeap.pop();
+    }
+    cout &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            
+            
+            <section class="references-section">
+                <h2>
+                    <span class="algorithm-emoji">🔗</span>
+                    References
+                </h2>
+                
+                <div class="reference-item">
+                    <h4>Graph Algorithms</h4>
+                    <p><a href="#">CLRS - Introduction to Algorithms (Chapter 22-24)</a></p>
+                    <p><a href="#">"Algorithms" by Robert Sedgewick & Kevin Wayne</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>Heaps and Priority Queues</h4>
+                    <p><a href="#">CLRS - Introduction to Algorithms (Chapter 6)</a></p>
+                    <p><a href="#">"Data Structures and Algorithm Analysis" - Mark Allen Weiss</a></p>
+                </div>
+                
+                <div class="reference-item">
+                    <h4>Real-time Data Processing</h4>
+                    <p><a href="#">Apache Kafka Documentation</a></p>
+                    <p><a href="#">"Streaming Systems" by Tyler Akidau</a></p>
+                    <p><a href="#">Amazon Kinesis Best Practices</a></p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Prajwal | Amazon Dynamic Pricing Deep Dive</p>
+        </div>
+    </footer>
+    
+    <script>
+        function copyCode(button) {
+            const codeSnippet = button.closest('.code-snippet-container').querySelector('.code-snippet');
+            const text = codeSnippet.textContent || codeSnippet.innerText;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#ff9900';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
